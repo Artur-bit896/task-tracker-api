@@ -7,10 +7,10 @@ class TaskStatus(str, Enum):
     done = "done"
 
 class TaskCreate(BaseModel):
-    title: str = Field(..., max_length=200)
+    title: str = Field(..., max_length=250, min_length=5)
     description: str | None = None
     status: TaskStatus = TaskStatus.todo
 
 class TaskUpdate(BaseModel):
-    title: str | None = None
+    title: str | None = Field(default=None, max_length=250, min_length=5)
     description: str | None = None
