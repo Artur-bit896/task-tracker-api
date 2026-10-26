@@ -8,6 +8,8 @@ def test_create_task(client):
     )
 
     assert response.status_code == 201
+    assert response.json()["title"] == "Тестовая задача"
+    assert response.json()["status"] == "todo"
 
     data = response.json()
     assert data["title"] == "Тестовая задача"
@@ -86,3 +88,12 @@ def test_filter_tasks_by_status(client):
     assert len(tasks) == 1
     assert tasks[0]["title"] == "Задача 1"
     assert tasks[0]["status"] == "todo"
+
+
+def test_create_task_empty_title(client):
+    response = client.post(
+        "/api/v1/tasks",
+        json={"title": ""},
+    )
+
+    assert response.status_code == 422
