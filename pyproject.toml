@@ -14,6 +14,21 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "black>=26.10.1",
     "httpx>=0.28.1",
+    "isort>=9.0.2",
+    "mypy>=2.4.1",
     "pytest>=9.1.1",
 ]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+#помогает распознавать модели Pydantic и их поведение
+plugins = ["pydantic.mypy"]

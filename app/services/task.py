@@ -28,6 +28,7 @@ def get_tasks(status=None):
     finally:
         db.close()
 
+
 def get_task_by_id(task_id):
     db = SessionLocal()
     try:
@@ -51,6 +52,7 @@ def update_task(task_id, task_data):
     finally:
         db.close()
 
+
 def delete_task(task_id):
     db = SessionLocal()
     try:
@@ -62,6 +64,3 @@ def delete_task(task_id):
         return taski
     finally:
         db.close()
-
-
-

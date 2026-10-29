@@ -1,15 +1,14 @@
-from app.core.config import settings
-from sqlalchemy.engine import URL
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 
-from app.db.base import Base
-from app.models.task import Task
-from app.main import app
 import app.services.task as task_service
-
+from app.core.config import settings
+from app.db.base import Base
+from app.main import app
+from app.models.task import Task
 
 TEST_DATABASE_URL = URL.create(
     drivername="postgresql+psycopg",
@@ -29,7 +28,6 @@ TestingSessionLocal = sessionmaker(
 )
 
 
-
 @pytest.fixture
 def client(monkeypatch):
     Base.metadata.create_all(test_engine)
@@ -46,4 +44,3 @@ def client(monkeypatch):
 
     with TestClient(app) as test_client:
         yield test_client
-
