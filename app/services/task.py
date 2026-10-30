@@ -1,8 +1,9 @@
 from app.db.session import SessionLocal
 from app.models.task import Task
+from app.schemas.task import TaskCreate, TaskStatus, TaskUpdate
 
 
-def create_task(task):
+def create_task(task: TaskCreate) -> Task:
     db = SessionLocal()
     try:
         task_dict = task.model_dump()
@@ -18,7 +19,7 @@ def create_task(task):
         db.close()
 
 
-def get_tasks(status=None):
+def get_tasks(status: TaskStatus | None = None) -> list[Task]:
     db = SessionLocal()
     try:
         if status is None:
@@ -29,7 +30,7 @@ def get_tasks(status=None):
         db.close()
 
 
-def get_task_by_id(task_id):
+def get_task_by_id(task_id: int) -> Task | None:
     db = SessionLocal()
     try:
         return db.query(Task).filter(Task.id == task_id).first()
@@ -37,7 +38,7 @@ def get_task_by_id(task_id):
         db.close()
 
 
-def update_task(task_id, task_data):
+def update_task(task_id: int, task_data: TaskUpdate) -> None | Task:
     db = SessionLocal()
     try:
         taski = db.query(Task).filter(Task.id == task_id).first()
@@ -53,7 +54,7 @@ def update_task(task_id, task_data):
         db.close()
 
 
-def delete_task(task_id):
+def delete_task(task_id: int) -> Task | None:
     db = SessionLocal()
     try:
         taski = db.query(Task).filter(Task.id == task_id).first()
