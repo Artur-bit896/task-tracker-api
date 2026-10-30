@@ -41,15 +41,15 @@ def get_task_by_id(task_id: int) -> Task | None:
 def update_task(task_id: int, task_data: TaskUpdate) -> None | Task:
     db = SessionLocal()
     try:
-        taski = db.query(Task).filter(Task.id == task_id).first()
-        if taski is None:
+        task = db.query(Task).filter(Task.id == task_id).first()
+        if task is None:
             return None
         update_data = task_data.model_dump(exclude_unset=True)
         for key, value in update_data.items():
-            setattr(taski, key, value)
+            setattr(task, key, value)
         db.commit()
-        db.refresh(taski)
-        return taski
+        db.refresh(task)
+        return task
     finally:
         db.close()
 
@@ -57,11 +57,11 @@ def update_task(task_id: int, task_data: TaskUpdate) -> None | Task:
 def delete_task(task_id: int) -> Task | None:
     db = SessionLocal()
     try:
-        taski = db.query(Task).filter(Task.id == task_id).first()
-        if taski is None:
+        task = db.query(Task).filter(Task.id == task_id).first()
+        if task is None:
             return None
-        db.delete(taski)
+        db.delete(task)
         db.commit()
-        return taski
+        return task
     finally:
         db.close()
