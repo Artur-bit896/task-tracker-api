@@ -19,6 +19,7 @@ dev = [
     "isort>=9.0.2",
     "mypy>=2.4.1",
     "pytest>=9.1.1",
+    "ruff>=0.17.3",
 ]
 
 [tool.black]
@@ -32,3 +33,13 @@ line_length = 88
 [tool.mypy]
 #помогает распознавать модели Pydantic и их поведение
 plugins = ["pydantic.mypy"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+#E — ошибки стиля Pycodestyle
+#F — ошибки Pyflakes: например, неиспользуемые импорты и неопределённые имена
+#B — поиск распространённых ошибок и подозрительных конструкций
+select = ["E", "F", "B"]
