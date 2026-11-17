@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class TaskStatus(str, Enum):
@@ -10,11 +10,21 @@ class TaskStatus(str, Enum):
 
 
 class TaskCreate(BaseModel):
-    title: str = Field(..., max_length=250, min_length=5)
+    title: str = Field(..., max_length=200)
     description: str | None = None
     status: TaskStatus = TaskStatus.todo
 
+    @field_validator("title")
+    @classmethod
+    def clean_title_validating(cls, value):
+        clean_title = value.strip()
+        if clean_title == "":
+            raise ValueError(
+                "Это название не может быть использовано так как состоит только из пробелов"
+            )
+        return clean_title
+
 
 class TaskUpdate(BaseModel):
-    title: str | None = Field(default=None, max_length=250, min_length=5)
+    title: str | None = Field(default=None, max_length=200, min_length=5)
     description: str | None = None
