@@ -30,8 +30,8 @@ TestingSessionLocal = sessionmaker(
 
 @pytest.fixture
 def client(monkeypatch):
+    Base.metadata.drop_all(test_engine)
     Base.metadata.create_all(test_engine)
-
     monkeypatch.setattr(
         task_service,
         "SessionLocal",
